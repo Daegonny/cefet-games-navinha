@@ -2,6 +2,7 @@ package br.cefetmg.games.collision;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Utilitário para verificação de colisão.
@@ -16,8 +17,10 @@ public class Collision {
      * @param c2 círculo 2
      * @return true se há colisão ou false, do contrário.
      */
-    public static final boolean circlesOverlap(Circle c1, Circle c2) {
-        return false;
+    public static final boolean circlesOverlap(Circle c1, Circle c2) {        
+        Float dst = Vector2.dst(c1.x, c1.y, c2.x, c2.y);
+        Float radiuSum = c1.radius + c2.radius;
+        return dst < radiuSum;
     }
 
     /**
@@ -29,6 +32,19 @@ public class Collision {
      * @return true se há colisão ou false, do contrário.
      */
     public static final boolean rectsOverlap(Rectangle r1, Rectangle r2) {
-        return false;
+        Float r1xMax = r1.x + r1.width;
+        Float r2xMax = r2.x + r2.width;
+        Float r1yMax = r1.y + r1.height;
+        Float r2yMax = r2.y + r2.height;
+        boolean isCollidingX = overlap1D(new Vector2(r1.x, r1xMax), new Vector2(r2.x, r2xMax));
+        boolean isCollidingY = overlap1D(new Vector2(r1.y, r1yMax), new Vector2(r2.y, r2yMax));
+        return isCollidingX && isCollidingY;
     }
+    
+    public static final boolean overlap1D(Vector2 v1, Vector2 v2){
+        return v1.x <= v2.y && v1.y >= v2.x;
+    }
+    
+    
+    
 }
