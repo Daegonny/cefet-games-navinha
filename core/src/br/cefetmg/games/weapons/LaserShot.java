@@ -27,7 +27,7 @@ public class LaserShot implements Shot {
         bounds = new Rectangle(
                 position.x - WIDTH / 2f, position.y - HEIGHT / 2f,
                 WIDTH, HEIGHT);
-        speed = 350;
+        speed = 50;
     }
 
     @Override
@@ -60,7 +60,8 @@ public class LaserShot implements Shot {
         // Laser vs Vortex: rect vs rect
         // Laser vs Ship: nada
         if (other instanceof Asteroid || other instanceof VortexShot) {
-            return Collision.rectsOverlap(bounds, other.getMinimumBoundingRectangle());
+            return Collision.circlesRectsOverlap(other.getMinimumEnclosingBall(), bounds);
+            //return Collision.rectsOverlap(bounds, other.getMinimumBoundingRectangle());
         } else {
             return false;
         }

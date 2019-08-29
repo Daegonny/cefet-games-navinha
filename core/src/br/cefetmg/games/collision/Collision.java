@@ -1,6 +1,7 @@
 package br.cefetmg.games.collision;
 
 import com.badlogic.gdx.math.Circle;
+import static com.badlogic.gdx.math.MathUtils.clamp;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -45,6 +46,17 @@ public class Collision {
         return v1.x <= v2.y && v1.y >= v2.x;
     }
     
-    
+    public static final boolean circlesRectsOverlap(Circle c, Rectangle r) {
+        Vector2 rCenter = new Vector2(r.x + (r.width/2), r.y + (r.height/2));
+        Vector2 cCenter = new Vector2(c.x, c.y);
+        Vector2 d = cCenter.sub(rCenter);
+        
+        Float px = clamp(d.x, r.x, r.x+r.width);
+        Float py = clamp(d.y, r.y, r.y+r.height);
+        Float dst = Vector2.dst(px, py, c.x, c.y);
+        
+        
+        return dst <= c.radius;
+    }
     
 }
